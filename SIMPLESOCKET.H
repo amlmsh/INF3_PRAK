@@ -40,15 +40,16 @@ private:
 
 public:
 	~TCPserver();
-	TCPserver(int port, int maxDataSizeSend, int maxDataSizeRecv);
+	TCPserver(int port, int maxDataSizeRecv);
 	void run();
 
 protected:
 	const char   *dataSend_;
 	char 		 *dataRecv_;
 	char   		  maxDataSizeRecv_;
-	char   		  maxDataSizeSend_;
+	virtual string        myResponse(string input);
 
+private:
 	string response(string incomingMsg);
 
 };

@@ -9,12 +9,22 @@
 #include <string>
 #include <iostream>
 
+#include <cstdio>      /* printf, NULL */
+#include <cstdlib>     /* srand, rand */
+#include <ctime>       /* time */
+
+#include "SHA256.H"
+#include "TASK1.H"
+#include "TASK2.H"
+
 
 using namespace std;
 
 
 int main(){
-	;;
+	srand(time(NULL));
+	TASK2::SimFileServer srv(3333,10000);
+	srv.run();
 }
 
 

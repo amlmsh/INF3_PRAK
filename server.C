@@ -21,6 +21,6 @@
 int test();
 
 int main(){
-	TCPserver srv(2021,25,25);
+	TCPserver srv(2021,25);
 	srv.run();
 }

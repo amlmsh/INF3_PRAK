@@ -127,10 +127,8 @@ string TCPclient::receive(int size=512){
 
 
 
-TCPserver::TCPserver(int port, int maxDataSizeSend, int maxDataSizeRecv){
+TCPserver::TCPserver(int port, int maxDataSizeRecv){
 	maxDataSizeRecv_ = maxDataSizeRecv;
-	maxDataSizeSend_ = maxDataSizeSend;
-	dataSend_ = NULL;
 	dataRecv_ = new char[maxDataSizeRecv_];
 
 	clintListn_ = socket(AF_INET, SOCK_STREAM, 0); // creating socket
@@ -175,16 +173,22 @@ TCPserver::~TCPserver(){
 }
 
 string TCPserver::response(string incomingMsg){
-	string msg("Hello World");
-
+	string msg;
 	if(incomingMsg.compare(0,6,"BYEBYE") == 0){
 		cout << "asked to close server\n";
 		msg = string("BYEBYE"); // this return value
 		                        // will close server connections
+	}else{
+		msg = myResponse(incomingMsg);
 	}
 
 	cout << "received :" << incomingMsg << endl;
-	cout << "send back:" <<  msg << endl;
+	cout << "send back:" << msg << endl;
 
 	return msg;
+}
+
+
+string TCPserver::myResponse(string input){
+	return string("Hello World");
 }

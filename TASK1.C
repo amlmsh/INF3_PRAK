@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "TASK1.H"
+#include "SHA256.H"
 
 namespace TASK1{
 
@@ -49,6 +50,17 @@ string BlackBoxUnsafe::randomPwd(int l){
 	}
 	return pwd_;
 }
+
+void example(){
+	string pwd("meinpassword");
+	cout << "pwd   : " << pwd << endl;
+	cout << "SHA256: " << sha256(pwd) << endl;
+	pwd = ("einpassword");
+	cout << "pwd   : " << pwd << endl;
+	cout << "SHA256: " << sha256(pwd) << endl;
+	return;
+}
+
 
 }
 

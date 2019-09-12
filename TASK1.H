@@ -45,7 +45,9 @@ public:
 };
 
 
-}
+void example();
+
+} // end namespace TASK1
 
 
 #endif /* TASK1_H_ */
