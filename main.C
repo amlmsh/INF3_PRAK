@@ -16,6 +16,7 @@
 #include "SHA256.H"
 #include "TASK1.H"
 #include "TASK2.H"
+#include "TASK3.H"
 
 
 using namespace std;
@@ -23,8 +24,15 @@ using namespace std;
 
 int main(){
 	srand(time(NULL));
-	TASK2::SimFileServer srv(3333,10000);
-	srv.run();
+
+	TASK3::World w;
+
+	w.placeShips();
+	w.print();
+	w.printBoard();
+
+
+
 }
 
 
