@@ -96,10 +96,6 @@ BlockState World::coordAlreadyUsed(int x, int y){
 			if((block->x_ == x) && (block->y_ == y)){
 				return USED;
 			}
-
-			if((block->x_ < 1) && (block->y_ < 1)){
-				return CLEAR;
-			}
 		}
 	}
 	return CLEAR;
@@ -118,6 +114,7 @@ bool World::placeShips(){
 			}
 		}
 		sIdx++;
+		cout << (sIdx - 1) << " ships\n";
 	}while(sIdx < nmbShips_);
 	return true;
 }
@@ -142,10 +139,15 @@ bool World::placeSingleShip(int idxShip){
 	Ship *ship = ships_[idxShip];
 	bool horizontal = ((rand()%2) == 0);
 
+    // temporary storage for new blocks
+    Block tmpBlocks[ship->nmbBlocks_];
+
 	bool shipCompleted = false;
 	do{ // get rand start coordinates
 		nmbTries++;
 		if(nmbTries > maxTries) return false; // give up no place for ship found
+
+		horizontal = ((rand()%2) == 0);
 
 		startCoordX = (rand() % maxX_) + 1;
 		startCoordY = (rand() % maxY_) + 1;
@@ -157,18 +159,24 @@ bool World::placeSingleShip(int idxShip){
 
 	    // check if ship remains on the world
 	    if(horizontal){
-	    	if(startCoordX + ship->shipname_ > maxX_){
+	    	if((startCoordX + ship->shipname_ - 1)  > maxX_){
 	    		continue;
 	    	}
 	    }else{
-	    	if(startCoordY + ship->shipname_ > maxY_){
+	    	if((startCoordY + ship->shipname_ - 1)  > maxY_){
 	    		continue;
 	    	}
 	    }
 
+
+
+
 		// fill blocks of the ship with the coordinates and neighbors
 	    for(int bIdx=0; bIdx < ship->nmbBlocks_; bIdx++){
     		shipCompleted = false;
+
+
+
 	    	if(horizontal){
 	    		currCoordX = startCoordX + bIdx;
 	    		currCoordY = startCoordY;
@@ -176,17 +184,69 @@ bool World::placeSingleShip(int idxShip){
 	    		currCoordX = startCoordX;
 	    		currCoordY = startCoordY + bIdx;
 	    	}
+
+
 	    	// check coord.
 	    	if(coordAlreadyUsed(currCoordX, currCoordY) == USED){
-	    		removeAllBlockCoordFromShip(ship);
 	    		break;
 	    	}
+	    	// check neighborhood
 
-    		ship->blocks_[bIdx]->x_ = currCoordX;
-    		ship->blocks_[bIdx]->y_ = currCoordY;
-    		ship->blocks_[bIdx]->state_ = USED;
+	    	if( ((currCoordX + 1) <=maxX_) && ((currCoordX - 1) > 0) ){
+		    	if(coordAlreadyUsed(currCoordX-1, currCoordY) == USED){
+		    		break;
+		    	}
+		    	if(coordAlreadyUsed(currCoordX+1, currCoordY) == USED){
+		    		break;
+		    	}
+	    	}
+
+	    	if( ((currCoordY + 1) <=maxY_) && ((currCoordY - 1) > 0) ){
+		    	if(coordAlreadyUsed(currCoordX, currCoordY-1) == USED){
+		    		break;
+		    	}
+
+		    	if(coordAlreadyUsed(currCoordX, currCoordY+1) == USED){
+		    		break;
+		    	}
+	    	}
+
+	    	if( currCoordX == 1){
+		    	if(coordAlreadyUsed(currCoordX+1, currCoordY) == USED){
+		    		break;
+		    	}
+	    	}
+
+	    	if( currCoordY == 1){
+		    	if(coordAlreadyUsed(currCoordX, currCoordY+1) == USED){
+		    		break;
+		    	}
+	    	}
+
+	    	if( currCoordX == maxX_){
+		    	if(coordAlreadyUsed(currCoordX-1, currCoordY) == USED){
+		    		break;
+		    	}
+	    	}
+
+	    	if( currCoordY == maxY_){
+		    	if(coordAlreadyUsed(currCoordX, currCoordY-1) == USED){
+		    		break;
+		    	}
+	    	}
+
+
+	    	tmpBlocks[bIdx].x_ = currCoordX;
+	    	tmpBlocks[bIdx].y_ = currCoordY;
+	    	tmpBlocks[bIdx].state_ = USED;
 
     		shipCompleted = true;
+	    }
+
+	    for(int i=0; i < ship->nmbBlocks_;i++){
+	    	ship->blocks_[i]->x_ = tmpBlocks[i].x_;
+	    	ship->blocks_[i]->y_ = tmpBlocks[i].y_;
+	    	ship->blocks_[i]->state_ = tmpBlocks[i].state_;
 	    }
 	}while(!shipCompleted);
 
@@ -216,13 +276,13 @@ void World::print(){
 
 void World::printBoard(){
 	BlockState state;
-	for(int x=1; x <= maxX_; x++){
-		for(int y=1; y <= maxY_; y++){
+	for(int y=1; y <= maxY_; y++){
+		for(int x=1; x <= maxX_; x++){
 			state = coordAlreadyUsed(x,y);
 			if(state == USED){
 				cout << "X";
 			}else if(state == CLEAR){
-				cout << "0";
+				cout << "_";
 			}else {
 				cout << " ";
 			}
