@@ -128,6 +128,62 @@ void World::removeAllBlockCoordFromShip(Ship *s){
 	s->state_ = INPROGRESS;
 }
 
+bool World::checkNeighborhood(int x, int y){
+	if( ((x + 1) <=maxX_) && ((x - 1) > 0) ){
+    	if(coordAlreadyUsed(x-1, y) == USED){ return true;};
+    	if(coordAlreadyUsed(x+1, y) == USED){ return true;};
+	}
+
+	if( ((y + 1) <=maxY_) && ((y - 1) > 0) ){
+    	if(coordAlreadyUsed(x, y-1) == USED) return true;
+       	if(coordAlreadyUsed(x, y+1) == USED) return true;
+	}
+
+	if( (((x + 1) <=maxX_) && ((x - 1) > 0)) &&
+	    (((y + 1) <=maxY_) && ((y - 1) > 0)) ){
+    	if(coordAlreadyUsed(x, y-1) == USED) return true;
+       	if(coordAlreadyUsed(x, y+1) == USED) return true;
+    	if(coordAlreadyUsed(x+1, y-1) == USED) return true;
+       	if(coordAlreadyUsed(x+1, y+1) == USED) return true;
+    	if(coordAlreadyUsed(x-1, y-1) == USED) return true;
+       	if(coordAlreadyUsed(x-1, y+1) == USED) return true;
+
+    	if(coordAlreadyUsed(x-1, y) == USED) return true;
+       	if(coordAlreadyUsed(x+1, y) == USED) return true;
+    	if(coordAlreadyUsed(x-1, y+1) == USED) return true;
+       	if(coordAlreadyUsed(x+1, y+1) == USED) return true;
+    	if(coordAlreadyUsed(x-1, y-1) == USED) return true;
+       	if(coordAlreadyUsed(x+1, y-1) == USED) return true;
+
+	}
+
+	if(x == 1){
+    	if(coordAlreadyUsed(x+1, y) == USED) return true;
+    	if(coordAlreadyUsed(x+1, y-1) == USED) return true;
+       	if(coordAlreadyUsed(x+1, y+1) == USED) return true;
+	}
+
+	if(y == 1){
+    	if(coordAlreadyUsed(x, y+1) == USED) return true;
+    	if(coordAlreadyUsed(x-1, y+1) == USED) return true;
+    	if(coordAlreadyUsed(x+1, y+1) == USED) return true;
+	}
+
+	if(x == maxX_){
+       	if(coordAlreadyUsed(x-1, y) == USED) return true;
+       	if(coordAlreadyUsed(x-1, y-1) == USED) return true;
+       	if(coordAlreadyUsed(x-1, y+1) == USED) return true;
+	}
+
+	if(y == maxY_){
+       	if(coordAlreadyUsed(x, y-1) == USED) return true;
+       	if(coordAlreadyUsed(x-1, y-1) == USED) return true;
+       	if(coordAlreadyUsed(x+1, y-1) == USED) return true;
+	}
+	return false;
+}
+
+
 bool World::placeSingleShip(int idxShip){
 	int startCoordX;
 	int startCoordY;
@@ -175,8 +231,6 @@ bool World::placeSingleShip(int idxShip){
 	    for(int bIdx=0; bIdx < ship->nmbBlocks_; bIdx++){
     		shipCompleted = false;
 
-
-
 	    	if(horizontal){
 	    		currCoordX = startCoordX + bIdx;
 	    		currCoordY = startCoordY;
@@ -191,51 +245,11 @@ bool World::placeSingleShip(int idxShip){
 	    		break;
 	    	}
 	    	// check neighborhood
-
-	    	if( ((currCoordX + 1) <=maxX_) && ((currCoordX - 1) > 0) ){
-		    	if(coordAlreadyUsed(currCoordX-1, currCoordY) == USED){
-		    		break;
-		    	}
-		    	if(coordAlreadyUsed(currCoordX+1, currCoordY) == USED){
-		    		break;
-		    	}
+	    	if(checkNeighborhood(currCoordX, currCoordY)){
+	    		break;
 	    	}
 
-	    	if( ((currCoordY + 1) <=maxY_) && ((currCoordY - 1) > 0) ){
-		    	if(coordAlreadyUsed(currCoordX, currCoordY-1) == USED){
-		    		break;
-		    	}
-
-		    	if(coordAlreadyUsed(currCoordX, currCoordY+1) == USED){
-		    		break;
-		    	}
-	    	}
-
-	    	if( currCoordX == 1){
-		    	if(coordAlreadyUsed(currCoordX+1, currCoordY) == USED){
-		    		break;
-		    	}
-	    	}
-
-	    	if( currCoordY == 1){
-		    	if(coordAlreadyUsed(currCoordX, currCoordY+1) == USED){
-		    		break;
-		    	}
-	    	}
-
-	    	if( currCoordX == maxX_){
-		    	if(coordAlreadyUsed(currCoordX-1, currCoordY) == USED){
-		    		break;
-		    	}
-	    	}
-
-	    	if( currCoordY == maxY_){
-		    	if(coordAlreadyUsed(currCoordX, currCoordY-1) == USED){
-		    		break;
-		    	}
-	    	}
-
-
+	    	// save current coordinates
 	    	tmpBlocks[bIdx].x_ = currCoordX;
 	    	tmpBlocks[bIdx].y_ = currCoordY;
 	    	tmpBlocks[bIdx].state_ = USED;

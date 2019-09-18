@@ -63,6 +63,7 @@ protected:
 	virtual Ship* defaultShipFactory(int nmbBlocks);
 	virtual bool placeSingleShip(int idxShip);
 	BlockState coordAlreadyUsed(int x, int y);
+	bool checkNeighborhood(int x, int y);
 	void removeAllBlockCoordFromShip(Ship *s);
 
 };
