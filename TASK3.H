@@ -15,17 +15,18 @@ using namespace std;
 
 namespace TASK3{
 
-enum BlockState{CLEAR = 0, USED = 1, HIT = 2};
-enum ShipState {INPROGRESS, ALIVE, DESTROYED};
-enum ShipType  {FIVE=5, FOUR=4, THREE=3 ,TWO=2};
+enum BlockState  {BLOCK_CLEAR = 0, BLOCK_USED = 1, BLOCK_HIT = 2};
+enum ShipState   {INPROGRESS = 0, ALIVE= 1, HIT = 2, DESTROYED = 3};
+enum ShipType    {FIVE=5, FOUR=4, THREE=3 ,TWO=2};
+enum ShootResult {WATER, SHIP_HIT, SHIP_DESTROYED, ALL_SHIPS_DESTROYED, GAME_OVER};
 
 class Block{
 public:
 	int x_; // Koordinate of a block starting with value 1; value -1 means block not placed yet
 	int y_; // Koordinate of a block starting with value 1; value -1 means block not placed yet
-	BlockState state_ = CLEAR;
-	Block(){x_=-1; y_=-1;state_=CLEAR;};
-	Block(int x, int y, BlockState state){x_=x; y_=y; state_=CLEAR;};
+	BlockState state_ = BLOCK_CLEAR;
+	Block(){x_=-1; y_=-1;state_=BLOCK_CLEAR;};
+	Block(int x, int y, BlockState state){x_=x; y_=y; state_=BLOCK_CLEAR;};
 
 	void print();
 };
@@ -45,12 +46,14 @@ class World{
 public:
 	World():World(10,10,1,2,3,4){};
 	World(int maxX, int maxY, int nmbFiver, int nmbFourer, int nmbThreer, int nmbTwoer);
+
+	ShootResult shoot(int x, int y);
+
 	string worldDrawing();
-
-	virtual bool placeShips();
-
 	void print();
 	void printBoard();
+
+	virtual bool placeShips();
 
 
 protected:
@@ -65,8 +68,11 @@ protected:
 	BlockState coordAlreadyUsed(int x, int y);
 	bool checkNeighborhood(int x, int y);
 	void removeAllBlockCoordFromShip(Ship *s);
-
+	bool isShipStillAlive(Ship *s);
+	bool allShipsDestroyed();
 };
+
+void demoTask3();
 
 
 } // namespace TASK3

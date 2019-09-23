@@ -12,6 +12,25 @@
 
 namespace TASK3{
 
+void demoTask3(){
+	//TASK3::World w(10,10,1,2,3,4);
+	TASK3::World w;
+	w.placeShips();
+	int x,y;
+	TASK3::ShootResult res;
+
+	do{
+		w.printBoard();
+		cout << "x: "; cin >> x;
+		cout << "y: "; cin >> y;
+		res = w.shoot(x,y);
+		cout << "shoot: (" << x << ", " << y << ") --> " << res << endl;
+	}while(res != TASK3::GAME_OVER);
+	w.printBoard();
+
+}
+
+
 World::World(int maxX, int maxY, int nmbFiver, int nmbFourer, int nmbThreer, int nmbTwoer){
 	if(maxX < 10){
 		maxX_ = 10;
@@ -84,8 +103,8 @@ BlockState World::coordAlreadyUsed(int x, int y){
 	int nmbBlocks;
 	Block *block;
 
-	if((x<1) || (y<1)) return USED;
-	if((x>maxX_) || (y>maxY_)) return USED;
+	if((x<1) || (y<1)) return BLOCK_USED;
+	if((x>maxX_) || (y>maxY_)) return BLOCK_USED;
 
 	// check coordinate
 	for(int sIdx=0; sIdx<nmbShips_;sIdx++){ // go through the ships
@@ -94,11 +113,11 @@ BlockState World::coordAlreadyUsed(int x, int y){
 			block = ((ships_[sIdx])->blocks_)[bIdx];
 			// check coordinate
 			if((block->x_ == x) && (block->y_ == y)){
-				return USED;
+				return block->state_;
 			}
 		}
 	}
-	return CLEAR;
+	return BLOCK_CLEAR;
 }
 
 bool World::placeShips(){
@@ -114,7 +133,6 @@ bool World::placeShips(){
 			}
 		}
 		sIdx++;
-		cout << (sIdx - 1) << " ships\n";
 	}while(sIdx < nmbShips_);
 	return true;
 }
@@ -123,62 +141,62 @@ void World::removeAllBlockCoordFromShip(Ship *s){
 	for(int i; i < s->nmbBlocks_; i++){
 		s->blocks_[i]->x_ = -1;
 		s->blocks_[i]->y_ = -1;
-		s->blocks_[i]->state_ = CLEAR;
+		s->blocks_[i]->state_ = BLOCK_CLEAR;
 	}
 	s->state_ = INPROGRESS;
 }
 
 bool World::checkNeighborhood(int x, int y){
 	if( ((x + 1) <=maxX_) && ((x - 1) > 0) ){
-    	if(coordAlreadyUsed(x-1, y) == USED){ return true;};
-    	if(coordAlreadyUsed(x+1, y) == USED){ return true;};
+    	if(coordAlreadyUsed(x-1, y) == BLOCK_USED){ return true;};
+    	if(coordAlreadyUsed(x+1, y) == BLOCK_USED){ return true;};
 	}
 
 	if( ((y + 1) <=maxY_) && ((y - 1) > 0) ){
-    	if(coordAlreadyUsed(x, y-1) == USED) return true;
-       	if(coordAlreadyUsed(x, y+1) == USED) return true;
+    	if(coordAlreadyUsed(x, y-1) == BLOCK_USED) return true;
+       	if(coordAlreadyUsed(x, y+1) == BLOCK_USED) return true;
 	}
 
 	if( (((x + 1) <=maxX_) && ((x - 1) > 0)) &&
 	    (((y + 1) <=maxY_) && ((y - 1) > 0)) ){
-    	if(coordAlreadyUsed(x, y-1) == USED) return true;
-       	if(coordAlreadyUsed(x, y+1) == USED) return true;
-    	if(coordAlreadyUsed(x+1, y-1) == USED) return true;
-       	if(coordAlreadyUsed(x+1, y+1) == USED) return true;
-    	if(coordAlreadyUsed(x-1, y-1) == USED) return true;
-       	if(coordAlreadyUsed(x-1, y+1) == USED) return true;
+    	if(coordAlreadyUsed(x, y-1) == BLOCK_USED) return true;
+       	if(coordAlreadyUsed(x, y+1) == BLOCK_USED) return true;
+    	if(coordAlreadyUsed(x+1, y-1) == BLOCK_USED) return true;
+       	if(coordAlreadyUsed(x+1, y+1) == BLOCK_USED) return true;
+    	if(coordAlreadyUsed(x-1, y-1) == BLOCK_USED) return true;
+       	if(coordAlreadyUsed(x-1, y+1) == BLOCK_USED) return true;
 
-    	if(coordAlreadyUsed(x-1, y) == USED) return true;
-       	if(coordAlreadyUsed(x+1, y) == USED) return true;
-    	if(coordAlreadyUsed(x-1, y+1) == USED) return true;
-       	if(coordAlreadyUsed(x+1, y+1) == USED) return true;
-    	if(coordAlreadyUsed(x-1, y-1) == USED) return true;
-       	if(coordAlreadyUsed(x+1, y-1) == USED) return true;
+    	if(coordAlreadyUsed(x-1, y) == BLOCK_USED) return true;
+       	if(coordAlreadyUsed(x+1, y) == BLOCK_USED) return true;
+    	if(coordAlreadyUsed(x-1, y+1) == BLOCK_USED) return true;
+       	if(coordAlreadyUsed(x+1, y+1) == BLOCK_USED) return true;
+    	if(coordAlreadyUsed(x-1, y-1) == BLOCK_USED) return true;
+       	if(coordAlreadyUsed(x+1, y-1) == BLOCK_USED) return true;
 
 	}
 
 	if(x == 1){
-    	if(coordAlreadyUsed(x+1, y) == USED) return true;
-    	if(coordAlreadyUsed(x+1, y-1) == USED) return true;
-       	if(coordAlreadyUsed(x+1, y+1) == USED) return true;
+    	if(coordAlreadyUsed(x+1, y) == BLOCK_USED) return true;
+    	if(coordAlreadyUsed(x+1, y-1) == BLOCK_USED) return true;
+       	if(coordAlreadyUsed(x+1, y+1) == BLOCK_USED) return true;
 	}
 
 	if(y == 1){
-    	if(coordAlreadyUsed(x, y+1) == USED) return true;
-    	if(coordAlreadyUsed(x-1, y+1) == USED) return true;
-    	if(coordAlreadyUsed(x+1, y+1) == USED) return true;
+    	if(coordAlreadyUsed(x, y+1) == BLOCK_USED) return true;
+    	if(coordAlreadyUsed(x-1, y+1) == BLOCK_USED) return true;
+    	if(coordAlreadyUsed(x+1, y+1) == BLOCK_USED) return true;
 	}
 
 	if(x == maxX_){
-       	if(coordAlreadyUsed(x-1, y) == USED) return true;
-       	if(coordAlreadyUsed(x-1, y-1) == USED) return true;
-       	if(coordAlreadyUsed(x-1, y+1) == USED) return true;
+       	if(coordAlreadyUsed(x-1, y) == BLOCK_USED) return true;
+       	if(coordAlreadyUsed(x-1, y-1) == BLOCK_USED) return true;
+       	if(coordAlreadyUsed(x-1, y+1) == BLOCK_USED) return true;
 	}
 
 	if(y == maxY_){
-       	if(coordAlreadyUsed(x, y-1) == USED) return true;
-       	if(coordAlreadyUsed(x-1, y-1) == USED) return true;
-       	if(coordAlreadyUsed(x+1, y-1) == USED) return true;
+       	if(coordAlreadyUsed(x, y-1) == BLOCK_USED) return true;
+       	if(coordAlreadyUsed(x-1, y-1) == BLOCK_USED) return true;
+       	if(coordAlreadyUsed(x+1, y-1) == BLOCK_USED) return true;
 	}
 	return false;
 }
@@ -209,7 +227,7 @@ bool World::placeSingleShip(int idxShip){
 		startCoordY = (rand() % maxY_) + 1;
 
 		// check if coordinates are free
-	    if(coordAlreadyUsed(startCoordX, startCoordY) == USED){
+	    if(coordAlreadyUsed(startCoordX, startCoordY) == BLOCK_USED){
 	    	continue;
 	    };
 
@@ -241,7 +259,7 @@ bool World::placeSingleShip(int idxShip){
 
 
 	    	// check coord.
-	    	if(coordAlreadyUsed(currCoordX, currCoordY) == USED){
+	    	if(coordAlreadyUsed(currCoordX, currCoordY) == BLOCK_USED){
 	    		break;
 	    	}
 	    	// check neighborhood
@@ -252,7 +270,7 @@ bool World::placeSingleShip(int idxShip){
 	    	// save current coordinates
 	    	tmpBlocks[bIdx].x_ = currCoordX;
 	    	tmpBlocks[bIdx].y_ = currCoordY;
-	    	tmpBlocks[bIdx].state_ = USED;
+	    	tmpBlocks[bIdx].state_ = BLOCK_USED;
 
     		shipCompleted = true;
 	    }
@@ -268,6 +286,63 @@ bool World::placeSingleShip(int idxShip){
 
 	return true;
 }
+
+
+ShootResult World::shoot(int x, int y){
+	if(allShipsDestroyed()){
+		return GAME_OVER;
+	}
+
+	if( (x > maxX_) || (y > maxY_) || (x < 1) || (y < 1)){
+		return WATER;
+	}
+
+	Ship *s;
+	Block *b;
+	for(int idxShp = 0; idxShp < nmbShips_; idxShp++){
+		s = ships_[idxShp];
+		for(int idxBlk = 0; idxBlk < s->nmbBlocks_; idxBlk++){
+			b = s->blocks_[idxBlk];
+			if( (b->x_ == x) && (b->y_ == y)){
+				b->state_ = BLOCK_HIT;
+				if(isShipStillAlive(s)){
+					return SHIP_HIT;
+				}else{
+					s->state_ = DESTROYED;
+
+					if(allShipsDestroyed()){
+						return GAME_OVER;
+					}else{
+						return SHIP_DESTROYED;
+					}
+				}
+			}
+		}
+	}
+
+	return WATER;
+}
+
+bool World::isShipStillAlive(Ship *s){
+	Block *b;
+	for(int idxBlk = 0; idxBlk < s->nmbBlocks_; idxBlk++){
+		b = s->blocks_[idxBlk];
+		if(b->state_ != BLOCK_HIT){
+			return true;
+		}
+	}
+	return false;
+}
+
+bool World::allShipsDestroyed(){
+	for(int idxShp = 0; idxShp < nmbShips_; idxShp++){
+		if( ships_[idxShp]->state_ != DESTROYED){
+			return false;
+		}
+	}
+	return true;
+}
+
 
 void Block::print(){
 	cout << "X: " << x_ << " Y: " << y_ << " state: " << state_<< endl;
@@ -293,10 +368,12 @@ void World::printBoard(){
 	for(int y=1; y <= maxY_; y++){
 		for(int x=1; x <= maxX_; x++){
 			state = coordAlreadyUsed(x,y);
-			if(state == USED){
+			if(state == BLOCK_USED){
 				cout << "X";
-			}else if(state == CLEAR){
+			}else if(state == BLOCK_CLEAR){
 				cout << "_";
+			}else if(state == BLOCK_HIT){
+				cout << "D";
 			}else {
 				cout << " ";
 			}

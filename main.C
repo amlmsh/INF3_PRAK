@@ -25,14 +25,7 @@ using namespace std;
 int main(){
 	srand(time(NULL));
 
-	TASK3::World w(10,10,1,2,3,4);
-
-	w.placeShips();
-	w.print();
-	w.printBoard();
-
-
-
+	TASK3::demoTask3();
 }
 
 
