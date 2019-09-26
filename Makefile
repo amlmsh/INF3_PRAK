@@ -1,6 +1,6 @@
 CC=g++
 
-OBJS= main.o TASK1.o TASK2.o TASK3.o SHA256.o SIMPLESOCKET.o
+OBJS= main.o TASK1.o TASK2.o TASK3.o TASK4.o SHA256.o SIMPLESOCKET.o
 DEMOTARGET=main server client
 
 client.o:	client.C
@@ -24,13 +24,16 @@ TASK2.o:	TASK2.C
 TASK3.o:	TASK3.C
 	$(CC) -c $<  -std=c++11
 
+TASK4.o:	TASK4.C
+	$(CC) -c $<  -std=c++11 
+
 main.o:	main.C
 	$(CC) -c $<  -std=c++11	
 
 
 
 main:	$(OBJS)
-	$(CC) -o $@ $^ -L/usr/lib/x86_64-linux-gnu -ldl -lstdc++  -std=c++11
+	$(CC) -o $@ $^ -L/usr/lib/x86_64-linux-gnu -ldl -lstdc++  -std=c++11 -pthread
 	
 
 server:	server.o

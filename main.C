@@ -17,15 +17,15 @@
 #include "TASK1.H"
 #include "TASK2.H"
 #include "TASK3.H"
-
+#include "TASK4.H"
 
 using namespace std;
+
 
 
 int main(){
 	srand(time(NULL));
 
-	TASK3::demoTask3();
 }
 
 
