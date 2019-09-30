@@ -9,7 +9,7 @@
 #define TASK4_H_
 
 #include <string>
-#include <thread>
+#include <pthread.h>
 #include <iostream>
 
 using namespace std;
@@ -18,10 +18,11 @@ using namespace std;
 
 namespace TASK4{
 
+
 void demoTask4();
 
-void procA(string msg);
-void procB(string msg);
+void *procA(void* msg);
+void *procB(void* msg);
 
 
 } // end namespace TASK4

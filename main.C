@@ -18,14 +18,17 @@
 #include "TASK2.H"
 #include "TASK3.H"
 #include "TASK4.H"
+#include "TASK5.H"
+#include "TASK6.H"
 
 using namespace std;
 
 
 
-int main(){
-	srand(time(NULL));
 
+
+int main(){
+	srand(time(nullptr));
 }
 
 
