@@ -15,6 +15,7 @@ using namespace std;
 namespace TASK1{
 
 const string SYMBOLS = "ABCDEFGHIJKLMNOPQRTSTUVWXYZabcdefghijklmopqrstuvwxyz0123456789";
+const unsigned int MINIMAL_PWD_LENGTH = 4;
 
 class IBlackBox{
 public:

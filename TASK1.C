@@ -42,7 +42,7 @@ string BlackBoxUnsafe::input(string strPwd){
 
 string BlackBoxUnsafe::randomPwd(int l){
 	int symbolIdx;
-	if(l < 1){ l = 8;};
+	if(l < MINIMAL_PWD_LENGTH){ l = MINIMAL_PWD_LENGTH;};
 	pwd_ = string("");
 	for(int i=0; i < l; i++){
 		symbolIdx = rand() % lengthSymbArray_;
