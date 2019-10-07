@@ -5,6 +5,16 @@
  *      Author: aml
  */
 
+
+
+/**
+ *
+ * \file TASK4.H
+ *
+ * \brief Contains namespace TASK4. Namespace TASK4 contains simple demos / examples for thread programming.
+ *
+ */
+
 #ifndef TASK4_H_
 #define TASK4_H_
 
@@ -15,7 +25,13 @@
 using namespace std;
 
 
-
+/**
+ *
+ * \namespace TASK4
+ *
+ * \brief Contains simple demos / examples for thread programming.
+ *
+ */
 namespace TASK4{
 
 

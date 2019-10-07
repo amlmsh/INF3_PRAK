@@ -5,27 +5,49 @@
  *      Author: aml
  */
 
-#ifndef TASK5_H_
-#define TASK5_H_
-
-//opencv
-#include <opencv2/opencv.hpp>
-
-using namespace std;
-
-
-
-namespace TASK5{
 
 /**
  *
  * \file TASK5.H
  *
- * \brief Contains the definition of the interfaces
+ * \brief Contains the namespace TASK5. Namespace TASK5
+ * contains the definition of the interfaces
  * of the classes implementing subject the observer
- * design patterns.
+ * design patterns. In addition some demos can be found
+ * that make use of video image capturing functionality
+ * of openCV.
  *
  */
+
+
+
+
+#ifndef TASK5_H_
+#define TASK5_H_
+
+
+
+//opencv
+#include <opencv2/opencv.hpp>
+
+
+using namespace std;
+
+
+
+/**
+ *
+ * \namespace TASK5
+ *
+ * \brief Contains the definition of the interfaces
+ * of the classes implementing subject the observer
+ * design patterns. In addition some demos can be found
+ * that make use of video image capturing functionality
+ * of openCV.
+ *
+ */
+namespace TASK5{
+
 
 
 

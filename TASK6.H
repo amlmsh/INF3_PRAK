@@ -8,10 +8,28 @@
 #ifndef TASK6_H_
 #define TASK6_H_
 
+
+/**
+ *
+ * \file TASK6.H
+ *
+ * \brief Contains the namespace TASK6. Namespace TASK6 defines the interfaces
+ * and classes for simple unit testing.
+ *
+ */
+
 #include <fstream>
 
 using namespace std;
 
+/**
+ *
+ * \namespace TASK6
+ *
+ * \brief Contains the definition of the interfaces
+ * and classes for simple unit testing.
+ *
+ */
 namespace TASK6{
 
 /**
@@ -333,19 +351,77 @@ public:
 };
 
 
-
+/**
+ *
+ *
+ * \class ITestItem
+ * \brief Interface class of unit testing classes. In general a test item conaitns either a
+ *  a specific test or a set of single tests.
+ *
+ */
 class ITestItem{
 public:
+
+	/**
+	 *
+	 * \brief Execution of testing  routine.
+	 *
+	 */
 	virtual void   testExecution()              = 0;
+
+	/**
+	 *
+	 * \brief Returns the outcome of the test.
+	 *
+	 * \return bool Return value is true, if and only if,
+	 * test has delivered the expected results.
+	 *
+	 */
 	virtual bool   getResult()                  = 0;
+
+	/**
+	 *
+	 * \brief Returns the name of the single test.
+	 *
+	 */
 	virtual string getName()                    = 0;
+
+	/**
+	 *
+	 * \brief Returns specific output format of the single test result for documentation.
+	 *
+	 *	\return string contains the output for test documentation.
+	 */
 	virtual string toXmlStr()                   = 0;
+
+	/**
+	 *
+	 * \brief Adds a test to the set of tests.
+	 *
+	 * \param item *ITestItem pointer to a test item.
+	 *
+	 * \throws *const char if test cannot be added.
+	 *
+	 */
 	virtual void   addTestItem(ITestItem *item) = 0;
 };
 
-
+/**
+ *
+ * \brief Implementation of the core functions for all derived classes
+ * of the unit test framework.
+ *
+ *
+ */
 class TestItem : public ITestItem{
 public:
+
+	/**
+	 *
+	 * \brief Constructor
+	 *
+	 * \param s string contains the name of the test item.
+	 */
 	TestItem(string s = string("undefined test item")){name_ = s; result_ = false;};
 	virtual string getName(){ return name_;};
 	virtual bool   getResult(){return result_;};
@@ -355,14 +431,34 @@ protected:
 	bool   result_ = false;
 };
 
-
+/**
+ *
+ * \brief Implementation of the class for defining a test case.
+ *
+ * A test case is the instance that represents / implements a single test.
+ *
+ */
 class TestCase : public TestItem{
 public:
+
+	/**
+	 *
+	 * \brief Constructor
+	 *
+	 * \param s string name if the test case.
+	 *
+	 */
 	TestCase(string s = string("undefined test case")) : TestItem(s){};
 
+	/**
+	 *
+	 * \brief Starts the execution of the defined test.
+	 *
+	 */
 	void testExecution(){
 		result_ = testRun();
 	}
+
 
 	string toXmlStr(){
 		string s("");
@@ -377,6 +473,14 @@ public:
 		return s;
 	}
 protected:
+
+	/**
+	 *
+	 * \brief This method implements through overriding
+	 * in the derived classes the concrete test.
+	 *
+	 *
+	 */
 	virtual bool testRun(){
 		return false;
 	}
@@ -384,12 +488,29 @@ protected:
 };
 
 
+/**
+ *
+ * \brief This class implements a test suite for unit testing.
+ *
+ * A test suite is a collection of test cases that usually belong
+ * to a test of test of one method of a class under testing.
+ *
+ */
 class TestSuite : public TestItem{
 public:
 	TestSuite(string s = string("undefined test suite")) : TestItem(s){
 
 	};
 
+	/**
+	 *
+	 * \brief This method executes all test cases stored in the test suite.
+	 * The results of all test executions are collected and the overall
+	 * test results of the test suite is stored.
+	 * The overall result of the test suite is true if and only if all
+	 * test cases have result true.
+	 *
+	 */
 	virtual void testExecution(){
 		result_ = true;
 		TestItem *ptrTC;
@@ -443,13 +564,30 @@ protected:
 	string testType_ = "TestSuite";
 };
 
-
+/**
+ *
+ * \brief Implements the unit test class.
+ *
+ * A unit test item is usually a collection of test suites. Usually
+ * a test unit collects all test that belong to one class.
+ *
+ */
 class UnitTest : public TestSuite{
 public:
 	UnitTest(string s = "undefined unit test") : TestSuite(s){
 		testType_ = "UnitTest";
 	};
 
+	/**
+	 *
+	 * \brief Writes the results of the testing into a file.
+	 *
+	 *
+	 * \param fileName string represents the file name where the summary of all tests in the
+	 * unit test is stored in xml-format.
+	 *
+	 *
+	 */
 	void writeResultsToFile(string fileName){
 		std::ofstream file(fileName);
 		file <<  toXmlStr();
