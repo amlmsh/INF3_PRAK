@@ -18,7 +18,6 @@
 
 #include "SIMPLESOCKET.H"
 
-int test();
 
 int main(){
 	TCPserver srv(2021,25);

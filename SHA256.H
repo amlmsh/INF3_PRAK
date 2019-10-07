@@ -5,6 +5,16 @@
  *      Author: aml
  */
 
+/**
+ *
+ * \file SHA256.H
+ *
+ * \brief Contains the implementation
+ * of the check sum calculation.
+ *
+ */
+
+
 
 /*
  * Updated to C++, zedwood.com 2012

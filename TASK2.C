@@ -13,6 +13,13 @@ using namespace std;
 
 namespace TASK2{
 
+void demoTASK2(){
+	SimFileServer fs(12345,50);
+	fs.run(); // endless loop, now use telnet to connect to  the server
+}
+
+
+
 string SimFileServer::myResponse(string input){
 	string msg;
 	msg = string("UNKNOWN_COMMAND - Please use:\n");
@@ -51,6 +58,7 @@ string SimFileServer::disturbance(string input){
 
 
 string HtmlFile::generateDataContent(){
+	/// \todo this method must create a html table with random float values
 	string content("Hallo Welt!");
 	return content;
 };

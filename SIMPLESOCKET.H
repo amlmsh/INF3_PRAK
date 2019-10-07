@@ -140,7 +140,7 @@ private:
 
 	/**
 	 *
-	 * \brief Wraping method for method  myResponse.
+	 * \brief Wrapping method for method  myResponse.
 	 *
 	 * \param string incomingMsg contains the data the server has received.
 	 *

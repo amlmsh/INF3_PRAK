@@ -51,7 +51,7 @@ string BlackBoxUnsafe::randomPwd(int l){
 	return pwd_;
 }
 
-void example(){
+void demoTASK1_00(){
 	string pwd("meinpassword");
 	cout << "pwd   : " << pwd << endl;
 	cout << "SHA256: " << sha256(pwd) << endl;
@@ -61,6 +61,11 @@ void example(){
 	return;
 }
 
+void demoTASK1_01(){
+	TASK1::BlackBoxSafe bs(4,4);
+	cout << bs.pwd_ << endl;
+	return;
+}
 
 }
 
