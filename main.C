@@ -13,6 +13,8 @@
 #include <cstdlib>     /* srand, rand */
 #include <ctime>       /* time */
 
+#include <unistd.h>
+
 #include "SHA256.H"
 #include "TASK1.H"
 #include "TASK2.H"
@@ -25,7 +27,8 @@ using namespace std;
 
 
 int main(){
-	srand(time(nullptr));
+    srand(time(nullptr));
+    return 0;
 }
 
 

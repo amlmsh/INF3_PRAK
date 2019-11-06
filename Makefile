@@ -1,6 +1,6 @@
 CC=g++
 
-CFLAGS=$(shell kg-config --cflags opencv) 
+CFLAGS=$(shell pkg-config --cflags opencv) 
 LIBS=$(shell pkg-config --libs opencv) 
 
 OBJS= main.o TASK1.o TASK2.o TASK3.o TASK4.o TASK5.o SHA256.o SIMPLESOCKET.o
@@ -40,24 +40,24 @@ main.o:	main.C
 
 main:	$(OBJS)
 	$(CC) -o $@ $^ -L/usr/lib/x86_64-linux-gnu -ldl -lstdc++  -std=c++11 -lpthread $(LIBS)
-	
+
 
 server:	server.o
-	$(CC) -o server server.o SIMPLESOCKET.o -L/usr/lib/x86_64-linux-gnu -ldl -lstdc++  -std=c++11
+	$(CC) -o server server.o  SIMPLESOCKET.o -L/usr/lib/x86_64-linux-gnu -ldl -lstdc++  -std=c++11
 
 client:	client.o
 	$(CC) -o client client.o SIMPLESOCKET.o -L/usr/lib/x86_64-linux-gnu -ldl -lstdc++  -std=c++11
-	
+
 clean:
 	-rm -r -f   $(DEMOTARGET) *.o DOXYGENDOC  *.txt
 
 doc:
 	doxygen Doxyfile 
-	
-	
+
+
 all:	$(DEMOTARGET)
 	make clean  && make main && make server && make client
 
 run:	main	
 	./main
-		
+

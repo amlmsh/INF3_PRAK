@@ -18,12 +18,42 @@ using namespace std;
 
 namespace TASK4{
 
+void demoForkTask4(){
+    printf("PROGRAMMSTART\n");
+
+    int i;
+    int counter = 0;
+    pid_t pid = fork();
+
+    if (pid == 0){
+        for (i=0;i<15;i++){
+            printf("            PID: %d; ", getpid());
+            printf("Kindprozess: counter=%d\n", counter++);
+            sleep(2);
+        }
+    }
+    else if (pid > 0){
+        for (i=0;i<10;i++){
+            printf("PID: %d; ", getpid());
+            printf("Elternprozess: counter=%d\n", counter++);
+            sleep(3);
+        }
+    }
+    else{
+        printf("fork() fehlgeschlagen!\n");
+        exit(1);
+    }
+
+    printf("PROGRAMMENDE\n");
+    exit(0);
+}
+
 
 void demoTask4(){
 	pthread_t t1, t2;
 	int i1, i2;
 	i1 = pthread_create(&t1, nullptr, procA, (void*) "A");
-	i2 = pthread_create(&t1, nullptr, procB, (void*) "B");
+	i2 = pthread_create(&t2, nullptr, procB, (void*) "B");
 
 
 	pthread_join(t1,nullptr);

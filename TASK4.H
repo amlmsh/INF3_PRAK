@@ -36,6 +36,7 @@ namespace TASK4{
 
 
 void demoTask4();
+void demoForkTask4();
 
 void *procA(void* msg);
 void *procB(void* msg);

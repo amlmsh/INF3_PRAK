@@ -166,6 +166,9 @@ void WebCamObserverDownscale::notify(){
 
 
 
+
+
+
 void demoOpenCV01(){
 	cvNamedWindow("X0", CV_WINDOW_AUTOSIZE );
 	cvNamedWindow("X1", CV_WINDOW_AUTOSIZE );
@@ -217,7 +220,7 @@ void demoOpenCV00(){
 
 void demoOB00(){
 	ConcreteObserver *o;
-	int nmbObs = 5;
+	int nmbObs = 3;
 
 	ConcreteSubject subject;
 
@@ -227,13 +230,14 @@ void demoOB00(){
 		subject.attach(o);
 	}
 	subject.setState("Hello World!");
+	subject.setState("New Data");
 
-
+	/*
 	std::cout << "\n remove observer:" << o->getID() << "\n\n";
 	subject.detach(o);
 
 	subject.setState("Hello Dark side of the moon!");
-
+	*/
 
 }
 

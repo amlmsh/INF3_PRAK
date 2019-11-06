@@ -18,8 +18,7 @@
 
 #include "SIMPLESOCKET.H"
 
-
 int main(){
-	TCPserver srv(2021,25);
+	TCPserver srv(2022,25);
 	srv.run();
 }

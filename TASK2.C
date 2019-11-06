@@ -13,10 +13,7 @@ using namespace std;
 
 namespace TASK2{
 
-void demoTASK2(){
-	SimFileServer fs(12345,50);
-	fs.run(); // endless loop, now use telnet to connect to  the server
-}
+
 
 
 
@@ -100,6 +97,12 @@ void   HtmlFile::newContent(){
 
 HtmlFile::HtmlFile(){
 	newContent();
+}
+
+
+void demoTASK2(){
+	SimFileServer fs(12346,50);
+	fs.run(); // endless loop, now use telnet to connect to  the server
 }
 
 
