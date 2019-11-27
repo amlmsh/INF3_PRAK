@@ -114,7 +114,7 @@ public:
 /**
  *
  * \brief Simple demonstration of calculating
- * the check for a given string.
+ * the check sum for a given string.
  *
  */
 void demoTASK1_00();

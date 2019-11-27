@@ -34,7 +34,7 @@ BlackBoxUnsafe::BlackBoxUnsafe(int pwdLength, int symbSetSize){
 }
 
 string BlackBoxUnsafe::input(string strPwd){
-	if(strPwd.compare(pwd_)){
+	if(strPwd.compare(pwd_) == 0){
 		return string("ACCESS ACCEPTED");
 	}
 	return string("ACCESS DENIED");
@@ -62,8 +62,11 @@ void demoTASK1_00(){
 }
 
 void demoTASK1_01(){
-	TASK1::BlackBoxSafe bs(4,4);
+	TASK1::BlackBoxUnsafe bs(4,4);
 	cout << bs.pwd_ << endl;
+
+	cout << bs.input(bs.pwd_) << endl;
+
 	return;
 }
 
