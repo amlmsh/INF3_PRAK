@@ -10,6 +10,8 @@
 #include <string>
 #include <iostream>
 #include <unistd.h>
+#include <cstdio>
+#include <cstdlib>
 
 
 #include "TASK4.H"
