@@ -154,6 +154,10 @@ void TCPserver::run(){
 
 	while(1)
 	{
+		for(int i=0; i < maxDataSizeRecv_; i++){
+			dataRecv_[i] = '\0';
+ 		};
+
 		read(clintConnt_,dataRecv_, (size_t)maxDataSizeRecv_);
 		output = response(string(dataRecv_));
 		dataSend_ = output.c_str();
@@ -190,5 +194,16 @@ string TCPserver::response(string incomingMsg){
 
 
 string TCPserver::myResponse(string input){
-	return string("NO DATA YET");
+	return string("NO DATA YET YET YET");
 }
+
+
+
+
+
+
+
+
+
+
+
