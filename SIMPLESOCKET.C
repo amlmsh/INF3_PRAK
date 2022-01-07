@@ -156,7 +156,7 @@ void TCPserver::run(){
 	{
 		for(int i=0; i < maxDataSizeRecv_; i++){
 			dataRecv_[i] = '\0';
- 		};
+ 		}
 
 		read(clintConnt_,dataRecv_, (size_t)maxDataSizeRecv_);
 		output = response(string(dataRecv_));
